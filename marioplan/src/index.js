@@ -9,14 +9,8 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'  //Thunk is a middleware,  and allows to return functions inside Action Creators.
 import { createFirestoreInstance, reduxFirestore, getFirestore } from 'redux-firestore'
 import {  ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
+import firebase from 'firebase/app'
 import fbConfig from './config/fbConfig'
-import 'firebase/firestore';
-
-//firebase information
-const rrfConfig = { 
-    userProfile: 'projects',
-    useFirestoreForProfile: true
-}
 
 
 const store = createStore(rootReducer,
@@ -28,15 +22,19 @@ const store = createStore(rootReducer,
 
 
 //firebase information
+const rrfConfig = {
+    userProfile: 'users'
+}
+
+//firebase information
 const rffProps = {
-    fbConfig,
-    useFirestoreForProfile: true,
+    firebase,
     config: rrfConfig,
     dispatch: store.dispatch,
     createFirestoreInstance
 }
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root')); 
+ReactDOM.render(<Provider store={store}><ReactReduxFirebaseProvider {...rffProps}><App /></ReactReduxFirebaseProvider></Provider>, document.getElementById('root')); 
 
 serviceWorker.register();
 
