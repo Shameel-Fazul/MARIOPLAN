@@ -41,10 +41,10 @@ export default compose(        // compose() method combines several higher order
     ])
 )(Dashboard)
 
-//connect() is a function that returns the high-order component when invoked.
+//connect() is a function that returns the higher-order component when invoked.
 //when returned, it then wraps (Dashboard).
 
-//firestoreConnect() is a function that connects to a specified collection in the firestore database.
+//firestoreConnect() is a higher-order component/function that connects to a specified collection in the firestore database.
 // firestoreConnect() takes an array as an Argument, and this array is gonna contain a series of objects. Right now, we just need one object.
 // { collection: 'projects' } - which collection to connect to in the firestore database.
 
