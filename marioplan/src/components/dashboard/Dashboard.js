@@ -4,11 +4,15 @@ import ProjectList from '../projects/ProjectList'
 import { connect } from 'react-redux' // Remember that the 'react-redux' library is what glues redux to react.
 import { firestoreConnect } from 'react-redux-firebase' // firestoreConnect is used to tell what firestore collection to connect to.
 import { compose } from 'redux' // compose() method combines several functions together.
+import { Redirect } from 'react-router-dom' // Redirect the user to another component.
 
 class Dashboard extends Component {
     render(){
         //console.log(this.props)
-        const { projects } = this.props; //destructuring
+        const { projects, auth } = this.props; //destructuring
+
+        if (!auth.uid) return <Redirect to='/signin' /> // If "auth.uid" doesn't exist, then we redirect the user to the signin component.
+        // if "auth.uid" does exist, then we carry on with this return :
         return (
             <div className="dashboard container">
                 <div className="row">
@@ -28,7 +32,8 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => { //once connected to redux using connect(), access the store's state and map it to the props of this component.
     console.log(state);
     return { // return object represents the different properties we want to add to the props.
-        projects: state.firestore.ordered.projects
+        projects: state.firestore.ordered.projects,
+        auth: state.firebase.auth
         //projects: state.project.projects 
     }
     

@@ -11,7 +11,7 @@ const Navbar = (props) => {  //To access props in a functional component, we use
   // Ternary operator
   const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
 
-  const LoadedNavBar = auth.isLoaded ? links : <p class="white-text right">Loading Nav...</p>
+  const LoadedNavBar = auth.isLoaded ? links : <p className="white-text right">Loading Nav...</p>
 
   return (
     <nav className="nav-wrapper grey darken-3">

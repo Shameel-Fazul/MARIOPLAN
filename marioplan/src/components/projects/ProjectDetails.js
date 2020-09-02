@@ -2,11 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { Redirect } from 'react-router-dom' // Redirect the user to another component.
 
 const ProjectDetails = (props) => {
-    const { project } = props;  // Destructuring - taking the "project" property off props (props.project)
+    const { project, auth} = props;  // Destructuring - taking the "project" & "auth" property off props (props.project & props.auth)
     // const id = props.match.params.id
     // console.log(props);
+    if (!auth.uid) return <Redirect to='/signin' /> // If "auth.uid" doesn't exist, then we redirect the user to the signin component.
+        // if "auth.uid" does exist, then we carry on with this return :
     if (project) {
         return (
             <div className="container section project-details">
@@ -38,7 +41,8 @@ const mapStateToProps = (state, ownProps) => {  //ownProps is the props of this 
     const projects = state.firestore.data.projects;
     const project = projects ? projects[id] : null  //Ternary operators - if we have "projects" in the collection then we need "projects[id]" or else "null" ("[id]" is "const id", and the id is "8kTe2rnlac9ZLVSgjaWs" because it's the property name of the projects object.)
     return {
-        project: project
+        project: project,
+        auth: state.firebase.auth
     }   
 }
 

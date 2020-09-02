@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createProject } from '../../store/actions/projectActions'
+import { Redirect } from 'react-router-dom' // Redirect the user to another component.
 
 class CreateProject extends Component {
     state = {
@@ -22,6 +23,10 @@ class CreateProject extends Component {
     }
 
     render() {
+        const { auth } = this.props; //destructuring
+
+        if (!auth.uid) return <Redirect to='/signin' /> // If "auth.uid" doesn't exist, then we redirect the user to the signin component.
+        // if "auth.uid" does exist, then we carry on with this return :
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit} className="white">
@@ -43,13 +48,20 @@ class CreateProject extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         createProject: (project) => dispatch(createProject(project))
     }
 }
 
-export default connect(null, mapDispatchToProps)(CreateProject)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProject)
 
 //Remember connect(1, 2) should have two parameters : "mapStateToProps" and "mapDispatchToProps" 
 // but since we don't need "mapStateToProps" in this component, we pass "null" as the first parameter.
