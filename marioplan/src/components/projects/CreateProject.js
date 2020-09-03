@@ -20,6 +20,7 @@ class CreateProject extends Component {
         e.preventDefault();
         //console.log(this.state)
         this.props.createProject(this.state) //invoking the createProject() function in props and sending the state as an argument.
+        this.props.history.push('/') // Route Properties to redirect user to dashbaord.
     }
 
     render() {

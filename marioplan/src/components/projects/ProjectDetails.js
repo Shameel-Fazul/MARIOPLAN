@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { Redirect } from 'react-router-dom' // Redirect the user to another component.
+import moment from 'moment' // It's a package that helps to better format timestamps. 
+                            // Documentation : https://momentjs.com/
 
 const ProjectDetails = (props) => {
     const { project, auth} = props;  // Destructuring - taking the "project" & "auth" property off props (props.project & props.auth)
@@ -20,7 +22,7 @@ const ProjectDetails = (props) => {
                     </div>
                     <div className="card-action grey lighten-4 grey-text">
                         <div>Posted by the { project.authorFirstName } { project.authorLastName }</div>
-                        <div>2nd September, 2am</div>
+                        <div>{ moment(project.createdAt.toDate()).calendar() }</div>
                     </div>
                 </div>
             </div>

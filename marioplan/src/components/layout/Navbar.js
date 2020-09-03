@@ -5,19 +5,19 @@ import SignedOutLinks from './SignedOutLinks'
 import { connect } from 'react-redux'
 
 const Navbar = (props) => {  //To access props in a functional component, we use props as a parameter.
-  const { auth } = props;
+  const { auth, profile } = props;
   //console.log(auth);
 
   // Ternary operator
-  const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
+  const links = auth.uid ? <SignedInLinks profile={ profile } /> : <SignedOutLinks />;
 
-  const LoadedNavBar = auth.isLoaded ? links : <p className="white-text right">Loading Nav...</p>
+  //const LoadedNavBar = auth.isLoaded ? links : <p className="white-text right">Loading Nav...</p>
 
   return (
     <nav className="nav-wrapper grey darken-3">
       <div className="container">
         <Link to='/' className="brand-logo">MarioPlan</Link>
-        { LoadedNavBar }
+        { links }
       </div>
     </nav>
   )
@@ -28,7 +28,8 @@ const Navbar = (props) => {  //To access props in a functional component, we use
 const mapStateToProps = (state) => {
   //console.log(state);
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    profile: state.firebase.profile  //profile information - check index.js (LINE 24) for more information.
   }
 }
 
