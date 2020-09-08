@@ -9,7 +9,7 @@ import { Redirect } from 'react-router-dom' // Redirect the user to another comp
 class Dashboard extends Component {
     render(){
         //console.log(this.props)
-        const { projects, auth } = this.props; //destructuring
+        const { projects, auth, notifications } = this.props; //destructuring
 
         if (!auth.uid) return <Redirect to='/signin' /> // If "auth.uid" doesn't exist, then we redirect the user to the signin component.
         // if "auth.uid" does exist, then we carry on with this return :
@@ -20,7 +20,7 @@ class Dashboard extends Component {
                         <ProjectList projects={projects} />
                     </div>
                     <div className="col s12 m5 offset-m1">
-                        <Notifications />
+                        <Notifications notifications={notifications}/>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,8 @@ const mapStateToProps = (state) => { //once connected to redux using connect(), 
     console.log(state);
     return { // return object represents the different properties we want to add to the props.
         projects: state.firestore.ordered.projects,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        notifications: state.firestore.ordered.notifications
         //projects: state.project.projects 
     }
     
@@ -42,7 +43,8 @@ const mapStateToProps = (state) => { //once connected to redux using connect(), 
 export default compose(        // compose() method combines several higher order components together.
     connect(mapStateToProps),
     firestoreConnect([
-        { collection: 'projects' }
+        { collection: 'projects' },
+        { collection: 'notifications', limit: 3 } // limit: 3 - only show 3 records at a time.
     ])
 )(Dashboard)
 
@@ -52,6 +54,7 @@ export default compose(        // compose() method combines several higher order
 //firestoreConnect() is a higher-order component/function that connects to a specified collection in the firestore database.
 // firestoreConnect() takes an array as an Argument, and this array is gonna contain a series of objects. Right now, we just need one object.
 // { collection: 'projects' } - which collection to connect to in the firestore database.
+// { collection: 'notifications' } - which collection to connect to in the firestore database.
 
 // When this component is active, it's going to connect to the 'projects' collection and injuice the 'firestoreReducer'(on rootReducer.js)
 // to sync the 'firestore'(on rootReducer.js) store state with the projects collection.
