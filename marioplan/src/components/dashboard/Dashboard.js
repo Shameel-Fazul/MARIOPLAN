@@ -43,8 +43,8 @@ const mapStateToProps = (state) => { //once connected to redux using connect(), 
 export default compose(        // compose() method combines several higher order components together.
     connect(mapStateToProps),
     firestoreConnect([
-        { collection: 'projects' },
-        { collection: 'notifications', limit: 3 } // limit: 3 - only show 3 records at a time.
+        { collection: 'projects', orderBy: ['createdAt', 'desc'] },
+        { collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] } // limit: 3 - only show 3 records at a time.
     ])
 )(Dashboard)
 
