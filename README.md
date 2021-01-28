@@ -1,2 +1,2 @@
 # MARIOPLAN
-Automated React &amp; Redux Application using Firebase for back-end.
+React &amp; Redux Application with Firebase for back-end.
